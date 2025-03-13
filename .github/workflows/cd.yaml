@@ -25,6 +25,11 @@ jobs:
           cd terraform/
           terraform init
 
+      - name: plan Terraform
+        run: |
+          cd terraform/
+          terraform plan
+
       - name: apply Terraform
         run: |
           cd terraform/
