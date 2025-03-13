@@ -44,13 +44,11 @@ jobs:
         id: get_elb_url
         run: |
           cd terraform/
-          ELB_URL=$(terraform output -json elb_url | tr -d '"')
-          echo "ELB_URL=${ELB_URL}" >> $GITHUB_ENV
-          echo "Set environment variable: ELB_URL=${ELB_URL}"
+          export ELB_URL=$(terraform output -json elb_url | tr -d '"')
 
       - name: Notify via Slack
         uses: 8398a7/action-slack@v3
         with:
           channel: "#deployments"
           slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          message: "Deployment completed successfully! ELB URL: ${{ env.ELB_URL }}"
+          message: "Deployment completed successfully! ELB URL: $ELB_URL"
