@@ -8,3 +8,10 @@ variable "owner" {
   type        = string
   default     = "guytamari"
 }
+
+
+
+variable "private_subnet_cidr" {
+  description = "private subnet cidr"
+  type        = string
+}

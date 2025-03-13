@@ -9,7 +9,7 @@ variable "instance_type" {
     type = string
 }
 
-variable "ami_ubuntu" {
+variable "ami_amazon_linux" {
     description = "ami id for the ec2 - ubuntu 22.04"
     type = string
 }
@@ -20,10 +20,6 @@ variable "nginx_sg_id" {
 }
 
 
-variable "bastion_sg_id" {
-  description = "SG id for the bastion ec2"
-  type        = string
-}
 
 variable "elb_sg_id" {
   description = "SG id for the ELB"
@@ -46,9 +42,4 @@ variable "vpc_id" {
 }
 
 
-
-variable "key_pair_name" {
-  description = "key pair name"
-  type        = string
-}
 

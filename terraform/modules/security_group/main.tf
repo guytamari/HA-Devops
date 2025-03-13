@@ -20,19 +20,12 @@ resource "aws_security_group" "nginx_sg" {
 
 
   # allowing ssh access only from host machine by fetching their public ip
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["${chomp(data.http.my_ip.body)}/32"]
-
-  }
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.0.1.0/24"]
+    cidr_blocks = [var.private_subnet_cidr]
 
   }
   egress {
@@ -76,23 +69,4 @@ resource "aws_security_group" "elb_sg" {
 }
 
 
-# bastion sg
-
-resource "aws_security_group" "bastion_sg" {
-  name        = "bastion-security-group"
-  description = "allow ssh from everywhere"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "bastion-security-group"
-    Owner = var.owner
-  }
-}
 

@@ -45,14 +45,8 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
-variable "ami_ubuntu" {
-  description = "ami id for the ec2 - ubuntu 22.04"
+variable "ami_amazon_linux" {
+  description = "ami id for the ec2 - Amazon Linux 2023"
   type        = string
-  default     = "ami-0e1bed4f06a3b463d"
-}
-
-variable "key_pair_name" {
-  description = "key pair name"
-  type        = string
-  default     = "guytamari-home2"
+  default     = "ami-08b5b3a93ed654d19"
 }

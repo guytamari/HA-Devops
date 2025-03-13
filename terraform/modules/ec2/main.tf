@@ -3,11 +3,10 @@
 
 # EC2 instnce for nginx
 resource "aws_instance" "nginx" {
-  ami               = var.ami_ubuntu
+  ami               = var.ami_amazon_linux
   instance_type     = var.instance_type
   subnet_id         = var.private_subnet_id
   user_data = file("${path.module}/init_instance.sh")
-  key_name          = var.key_pair_name
   security_groups   = [var.nginx_sg_id]
   associate_public_ip_address = false
   tags = {
@@ -17,20 +16,7 @@ resource "aws_instance" "nginx" {
 
 }
 
-# bastion option
-resource "aws_instance" "bastion" {
-  ami               = var.ami_ubuntu
-  instance_type     = var.instance_type
-  subnet_id         = var.public_subnet_id[0]
-  key_name          = var.key_pair_name
-  security_groups   = [var.bastion_sg_id]
-  associate_public_ip_address = true
-  tags = {
-    Name = "bastionEC2"
-    Owner = var.owner
-  }
 
-}
 
 # ELB
 
