@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: check out the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -43,12 +43,12 @@ jobs:
       - name: Get ELB URL from Terraform output
         id: get_elb_url
         run: |
-          ELB_URL=$(terraform output -raw elb_url)
-          echo "elb_url=${ELB_URL}" >> $GITHUB_ENV
+          ELB_URL=$(terraform output -json elb_url | jq -r .)
+          echo "ELB_URL=${ELB_URL}" >> $GITHUB_ENV
 
       - name: Notify via Slack
         uses: 8398a7/action-slack@v3
         with:
           channel: "#deployments"
           slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          message: "Deployment completed successfully! ELB URL: ${{ env.elb_url }}"
+          message: "Deployment completed successfully! ELB URL: ${{ env.ELB_URL }}"
