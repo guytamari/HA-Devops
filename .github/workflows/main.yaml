@@ -21,7 +21,7 @@ jobs:
 
       - name: build and push docker image
         run: |
-          docker build -t guytamari/nginx-custom ~/terraform/docker/.
+          docker build -t guytamari/nginx-custom ../terraform/docker/.
           docker push guytamari/nginx-custom
 
       - name: setup Terraform
@@ -29,7 +29,7 @@ jobs:
 
       - name: initialize Terraform
         run: |
-          cd ~/terraform
+          cd ../terraform
           terraform init
 
       - name: apply Terraform
