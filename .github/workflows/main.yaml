@@ -21,8 +21,7 @@ jobs:
 
       - name: build and push docker image
         run: |
-          echo ($pwd)
-          ls ../terraform/docker/
+          echo $(ls ../terraform/docker/)
           docker build -t guytamari/nginx-custom ../terraform/docker/.
           docker push guytamari/nginx-custom
 
