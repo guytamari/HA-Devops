@@ -32,6 +32,9 @@ jobs:
           cd terraform/
           terraform init
 
+      - name: print AWS environment variables (for debugging)
+        run: echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+
       - name: apply Terraform
         run: |
           cd terraform/
