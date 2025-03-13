@@ -21,14 +21,16 @@ jobs:
 
       - name: build and push docker image
         run: |
-          docker build -t guytamari/nginx-custom .
+          docker build -t guytamari/nginx-custom ~/terraform/docker/.
           docker push guytamari/nginx-custom
 
       - name: setup Terraform
         uses: hashicorp/setup-terraform@v1
 
       - name: initialize Terraform
-        run: terraform init
+        run: |
+          cd ~/terraform
+          terraform init
 
       - name: apply Terraform
         run: terraform apply -auto-approve
