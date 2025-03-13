@@ -1,7 +1,4 @@
-# fetch public ip of host to attach the ssh connection
-data "http" "my_ip" {
-  url = "https://checkip.amazonaws.com"
-}
+
 
 # EC2 SG
 resource "aws_security_group" "nginx_sg" {
