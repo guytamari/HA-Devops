@@ -47,8 +47,9 @@ jobs:
           export ELB_URL=$(terraform output -json elb_url | tr -d '"')
 
       - name: Notify via Slack
-        uses: 8398a7/action-slack@v3
+        uses: slackapi/slack-github-action@v2.0.0
         with:
-          channel: "#deployments"
-          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload-delimiter: "_"
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
           message: "Deployment completed successfully! ELB URL: $ELB_URL"
