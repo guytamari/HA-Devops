@@ -12,10 +12,14 @@ variable "public_subnet_cidr" {
   description = "CIDR range for the public subnet"
   type        = string
 }
-
-variable "availability_zone" {
-  description = "The availability zone to deploy"
+variable "public_subnet_cidr_az2" {
+  description = "CIDR range for the public subnet in AZ2"
   type        = string
+}
+
+variable "availability_zones" {
+  description = "The availability zone to deploy"
+  type        = list(string)
 }
 
 variable "owner" {

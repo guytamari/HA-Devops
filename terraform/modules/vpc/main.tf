@@ -7,21 +7,31 @@ resource "aws_vpc" "main" {
     }
 }
 
-resource "aws_subnet" "public" {
-        vpc_id  = aws_vpc.main.id
-        availability_zone = var.availability_zone
-        cidr_block = var.public_subnet_cidr
-        map_public_ip_on_launch = true
-    tags = {
-        Name = "public-subnet"
-        Owner = var.owner
-    }
+resource "aws_subnet" "public_az1" {
+  vpc_id                  = aws_vpc.main.id
+  availability_zone       = var.availability_zones[0]  # using first az
+  cidr_block              = var.public_subnet_cidr
+  map_public_ip_on_launch = true
+  tags = {
+    Name  = "public-subnet-az1"
+    Owner = var.owner
+  }
+}
 
+resource "aws_subnet" "public_az2" {
+  vpc_id                  = aws_vpc.main.id
+  availability_zone       = var.availability_zones[1]  # using second az
+  cidr_block              = var.public_subnet_cidr_az2
+  map_public_ip_on_launch = true
+  tags = {
+    Name  = "public-subnet-az2"
+    Owner = var.owner
+  }
 }
 
 resource "aws_subnet" "private" {
         vpc_id  = aws_vpc.main.id
-        availability_zone = var.availability_zone
+        availability_zone = var.availability_zones[0]
         cidr_block = var.private_subnet_cidr
     tags = {
         Name = "private-subnet"
@@ -39,18 +49,32 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
-# elastic ip for the nat
-resource "aws_eip" "nat" {
+# elastic ip for the nat in az1
+resource "aws_eip" "nat_az1" {
+        domain = "vpc"
+}
+# elastic ip for the nat in az2
+resource "aws_eip" "nat_az2" {
         domain = "vpc"
 }
 
-# attaching nat gw to the public subnet
-resource "aws_nat_gateway" "main" {
-        allocation_id = aws_eip.nat.id
-        subnet_id     = aws_subnet.public.id
+# attaching nat gw to the public subnet az1
+resource "aws_nat_gateway" "nat_az1" {
+        allocation_id = aws_eip.nat_az1.id
+        subnet_id     = aws_subnet.public_az1.id
+        tags = {
+            Name  = "nat-az1"
+            Owner = var.owner
+        }
+}
+
+# attaching nat gw to the public subnet az2
+resource "aws_nat_gateway" "nat_az2" {
+  allocation_id = aws_eip.nat_az2.id
+  subnet_id     = aws_subnet.public_az2.id
   tags = {
-        Name = "mainNAT"
-        Owner = var.owner
+    Name  = "nat-az2"
+    Owner = var.owner
   }
 }
 
@@ -74,18 +98,24 @@ resource "aws_route_table" "private" {
         vpc_id = aws_vpc.main.id
         route {
             cidr_block     = "0.0.0.0/0"
-            nat_gateway_id = aws_nat_gateway.main.id
+            nat_gateway_id = aws_nat_gateway.nat_az1.id
         }
         tags = {
             Name = "PrivateRouteTable"
         }
 }
 
-# attaching RT to the public subnet
-resource "aws_route_table_association" "public" {
+# attaching RT to the public subnet az1
+resource "aws_route_table_association" "public_az1" {
         route_table_id = aws_route_table.public.id
-        subnet_id      = aws_subnet.public.id
+        subnet_id      = aws_subnet.public_az1.id
   
+}
+
+# attaching RT to the public subnet az2
+resource "aws_route_table_association" "public_az2" {
+        route_table_id = aws_route_table.public.id
+        subnet_id      = aws_subnet.public_az2.id
 }
 
 # attaching RT to the private subnet

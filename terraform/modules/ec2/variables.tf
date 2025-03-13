@@ -19,8 +19,18 @@ variable "nginx_sg_id" {
   type        = string
 }
 
+variable "elb_sg_id" {
+  description = "SG id for the ELB"
+  type        = string
+}
+
 variable "public_subnet_id" {
   description = "public subnet id for ec2"
+  type        = list(string)
+}
+
+variable "private_subnet_id" {
+  description = "private subnet id for ec2"
   type        = string
 }
 
@@ -28,3 +38,11 @@ variable "vpc_id" {
   description = "The ID of the vpc"
   type        = string
 }
+
+
+
+variable "key_pair_name" {
+  description = "key pair name"
+  type        = string
+}
+

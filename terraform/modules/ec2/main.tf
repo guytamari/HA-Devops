@@ -5,28 +5,9 @@
 resource "aws_instance" "nginx" {
   ami               = var.ami_ubuntu
   instance_type     = var.instance_type
-  subnet_id         = var.public_subnet_id
-  user_data = <<-EOF
-            #!/bin/bash
-            # this is a docker installion for ububtu 22.04
-            sudo apt update
-            sudo apt upgrade
-            sudo apt-get update
-            sudo apt-get install ca-certificates curl
-            sudo install -m 0755 -d /etc/apt/keyrings
-            sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-            sudo chmod a+r /etc/apt/keyrings/docker.asc
-            echo \
-            "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-            $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-            sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-            sudo apt-get update
-            sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-            sudo systemctl status docker
-            docker pull guytamari/nginx-custom
-            docker run -p 80:80 -d guytamari/nginx-custom
-            EOF
-  
+  subnet_id         = var.private_subnet_id
+  user_data = file("${path.module}/init_instance.sh")
+  key_name          = var.key_pair_name
   security_groups   = [var.nginx_sg_id]
   associate_public_ip_address = false
   tags = {
@@ -44,8 +25,8 @@ resource "aws_lb" "nginx_lb" {
     name               = "nginx-lb"
     internal           = false
     load_balancer_type = "application"
-    security_groups    = [var.nginx_sg_id]
-    subnets            = [var.public_subnet_id]
+    security_groups    = [var.elb_sg_id]
+    subnets            = var.public_subnet_id
     enable_deletion_protection = false
 
     enable_cross_zone_load_balancing = true

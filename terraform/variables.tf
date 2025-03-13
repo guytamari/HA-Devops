@@ -3,10 +3,10 @@ variable "region" {
   type        = string
   default     = "us-east-1"
 }
-variable "availability_zone" {
+variable "availability_zones" {
   description = "The availability zone to deploy"
-  type        = string
-  default     = "us-east-1a"
+  type        = list(string)
+  default     = ["us-east-1a", "us-east-1b"]
 }
 
 variable "vpc_cidr" {
@@ -21,10 +21,16 @@ variable "public_subnet_cidr" {
   default     = "10.0.1.0/24"
 }
 
+variable "public_subnet_cidr_az2" {
+  description = "CIDR range for the public subnet az2"
+  type        = string
+  default     = "10.0.2.0/24"
+}
+
 variable "private_subnet_cidr" {
   description = "CIDR range for the private subnet"
   type        = string
-  default     = "10.0.2.0/24"
+  default     = "10.0.3.0/24"
 }
 
 variable "owner" {
@@ -43,4 +49,10 @@ variable "ami_ubuntu" {
   description = "ami id for the ec2 - ubuntu 22.04"
   type        = string
   default     = "ami-0e1bed4f06a3b463d"
+}
+
+variable "key_pair_name" {
+  description = "key pair name"
+  type        = string
+  default = "guytamari-home2"
 }
