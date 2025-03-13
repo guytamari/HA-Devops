@@ -46,7 +46,7 @@ jobs:
           cd terraform/
           raw_output=$(terraform output -json elb_url)
           echo "Raw Terraform output: ${raw_output}"
-          ELB_URL=$(echo "${raw_output}" | jq -r .)
+          ELB_URL=$(echo "${raw_output}" | tr -d '"')
           echo "ELB_URL=${ELB_URL}" >> $GITHUB_ENV
           echo "ELB_URL=${ELB_URL}"
 
