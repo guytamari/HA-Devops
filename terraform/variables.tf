@@ -54,5 +54,5 @@ variable "ami_ubuntu" {
 variable "key_pair_name" {
   description = "key pair name"
   type        = string
-  default = "guytamari-home2"
+  default     = "guytamari-home2"
 }

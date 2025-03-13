@@ -17,6 +17,20 @@ resource "aws_instance" "nginx" {
 
 }
 
+# bastion option
+resource "aws_instance" "bastion" {
+  ami               = var.ami_ubuntu
+  instance_type     = var.instance_type
+  subnet_id         = var.public_subnet_id[0]
+  key_name          = var.key_pair_name
+  security_groups   = [var.bastion_sg_id]
+  associate_public_ip_address = true
+  tags = {
+    Name = "bastionEC2"
+    Owner = var.owner
+  }
+
+}
 
 # ELB
 

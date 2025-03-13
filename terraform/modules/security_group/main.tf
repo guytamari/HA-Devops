@@ -74,3 +74,25 @@ resource "aws_security_group" "elb_sg" {
     Owner = var.owner
   }
 }
+
+
+# bastion sg
+
+resource "aws_security_group" "bastion_sg" {
+  name        = "bastion-security-group"
+  description = "allow ssh from everywhere"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "bastion-security-group"
+    Owner = var.owner
+  }
+}
+

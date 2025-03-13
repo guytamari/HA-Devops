@@ -19,6 +19,12 @@ variable "nginx_sg_id" {
   type        = string
 }
 
+
+variable "bastion_sg_id" {
+  description = "SG id for the bastion ec2"
+  type        = string
+}
+
 variable "elb_sg_id" {
   description = "SG id for the ELB"
   type        = string
