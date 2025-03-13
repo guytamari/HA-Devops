@@ -17,3 +17,12 @@ output "nginx_sg_id" {
 output "elb_sg_id" {
   value = module.security_groups.elb_sg_id
 }
+
+
+output "ec2_instance_id" {
+  value = module.ec2.ec2_instance_id
+}
+
+output "elb_url" {
+  value = module.ec2.elb_url
+}

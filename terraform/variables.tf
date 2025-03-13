@@ -32,3 +32,15 @@ variable "owner" {
   type        = string
   default     = "guytamari"
 }
+
+variable "instance_type" {
+  description = "instance type to be used"
+  type        = string
+  default     = "t2.micro"
+}
+
+variable "ami_ubuntu" {
+  description = "ami id for the ec2 - ubuntu 22.04"
+  type        = string
+  default     = "ami-0e1bed4f06a3b463d"
+}
