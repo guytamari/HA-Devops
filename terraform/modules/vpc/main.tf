@@ -3,7 +3,7 @@ resource "aws_vpc" "main" {
         enable_dns_support = true
     tags = {
         Name = "mainVPC"
-        Owner = "guytamari"
+        Owner = var.owner
     }
 }
 
@@ -14,7 +14,7 @@ resource "aws_subnet" "public" {
         map_public_ip_on_launch = true
     tags = {
         Name = "public-subnet"
-        Owner = "guytamari"
+        Owner = var.owner
     }
 
 }
@@ -25,7 +25,7 @@ resource "aws_subnet" "private" {
         cidr_block = var.private_subnet_cidr
     tags = {
         Name = "private-subnet"
-        Owner = "guytamari"
+        Owner = var.owner
     }
 
 }
@@ -35,7 +35,7 @@ resource "aws_internet_gateway" "main" {
         vpc_id = aws_vpc.main.id
   tags = {
         Name = "mainGW"
-        Owner = "guytamari"
+        Owner = var.owner
   }
 }
 
@@ -50,7 +50,7 @@ resource "aws_nat_gateway" "main" {
         subnet_id     = aws_subnet.public.id
   tags = {
         Name = "mainNAT"
-        Owner = "guytamari"
+        Owner = var.owner
   }
 }
 
@@ -64,7 +64,7 @@ resource "aws_route_table" "public" {
 
   tags = {
         Name = "publicRT"
-        Owner = "guytamari"
+        Owner = var.owner
   }
 }
 

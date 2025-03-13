@@ -17,3 +17,9 @@ variable "availability_zone" {
   description = "The availability zone to deploy"
   type        = string
 }
+
+variable "owner" {
+  description = "Owner tag for the security groups"
+  type        = string
+  default     = "guytamari"
+}
