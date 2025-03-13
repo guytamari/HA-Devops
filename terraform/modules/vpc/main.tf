@@ -1,3 +1,4 @@
+# creation of the vpc itself
 resource "aws_vpc" "main" {
         cidr_block      = var.vpc_cidr
         enable_dns_support = true
@@ -6,7 +7,7 @@ resource "aws_vpc" "main" {
         Owner = var.owner
     }
 }
-
+# creation public subnet in az1
 resource "aws_subnet" "public_az1" {
   vpc_id                  = aws_vpc.main.id
   availability_zone       = var.availability_zones[0]  # using first az
@@ -17,7 +18,7 @@ resource "aws_subnet" "public_az1" {
     Owner = var.owner
   }
 }
-
+# creation public subnet in az2
 resource "aws_subnet" "public_az2" {
   vpc_id                  = aws_vpc.main.id
   availability_zone       = var.availability_zones[1]  # using second az
@@ -28,7 +29,7 @@ resource "aws_subnet" "public_az2" {
     Owner = var.owner
   }
 }
-
+# creation private subnet in  az1
 resource "aws_subnet" "private" {
         vpc_id  = aws_vpc.main.id
         availability_zone = var.availability_zones[0]
