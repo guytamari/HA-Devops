@@ -25,4 +25,4 @@ jobs:
 
       - name: Trigger CD pipeline
         run: |
-          curl -X POST -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" -d '{"ref":"main"}' https://api.github.com/repos/${{ github.repository }}/actions/workflows/cd.yml/dispatches
+          curl -X POST -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" -d '{"ref":"main"}' https://api.github.com/repos/${{ github.repository }}/actions/workflows/cd.yaml/dispatches
