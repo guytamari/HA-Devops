@@ -44,11 +44,9 @@ jobs:
         id: get_elb_url
         run: |
           cd terraform/
-          raw_output=$(terraform output -json elb_url)
-          echo "Raw Terraform output: ${raw_output}"
-          ELB_URL=$(echo "${raw_output}" | tr -d '"')
+          ELB_URL=$(terraform output -json elb_url | tr -d '"')
           echo "ELB_URL=${ELB_URL}" >> $GITHUB_ENV
-          echo "ELB_URL=${ELB_URL}"
+          echo "Set environment variable: ELB_URL=${ELB_URL}"
 
       - name: Notify via Slack
         uses: 8398a7/action-slack@v3
