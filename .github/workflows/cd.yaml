@@ -45,7 +45,7 @@ jobs:
         id: get_elb_url
         run: |
           cd terraform/
-          echo "::set-output name=elb_url::$(terraform output -json elb_url | tr -d '"')"
+          export ELB_URL=$(terraform output -json elb_url | tr -d '"')
 
       - name: Send notification on Slack using Webhooks
         uses: act10ns/slack@v2
@@ -53,5 +53,5 @@ jobs:
           channel: "#deployments"
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-          message: "Deployment completed successfully. ELB URL: ${{ steps.get_elb_url.outputs.elb_url }}"
+          message: "Deployment completed successfully. ELB URL: ${ELB_URL}"
         if: always()
