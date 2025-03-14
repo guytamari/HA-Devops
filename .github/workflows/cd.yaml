@@ -45,8 +45,7 @@ jobs:
         id: get_elb_url
         run: |
           cd terraform/
-          ELB_URL=$(terraform output -json elb_url | tr -d '"')
-          #ELB_URL=$(terraform output -raw elb_url | tr -d '\n' | tr -d '\r')
+          ELB_URL=$(terraform output -raw elb_url | tr -d '\n' | tr -d '\r')
           echo "::notice title=Extracted ELB URL::${ELB_URL}"
           echo "elb_url=${ELB_URL}" >> "$GITHUB_OUTPUT"
 
