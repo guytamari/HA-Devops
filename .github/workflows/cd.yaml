@@ -38,8 +38,7 @@ jobs:
       - name: apply Terraform
         run: |
           cd terraform/
-          #terraform apply -auto-approve -input=false tfplan
-          terraform destroy -auto-approve
+          terraform apply -auto-approve -input=false tfplan
 
       - name: Get ELB URL from Terraform output
         id: get_elb_url
@@ -47,10 +46,11 @@ jobs:
           cd terraform/
           export ELB_URL=$(terraform output -json elb_url | tr -d '"')
 
-      - name: Send message to Slack API
-        uses: archive/github-actions-slack@v2.0.0
-        id: notify
+      - name: Send notification on Slack using Webhooks
+        uses: slackapi/slack-github-action@v1.24.0
         with:
-          slack-bot-user-oauth-access-token: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
-          slack-channel: C08HMRYSYCS
-          slack-text: "Deployment completed successfully! ELB URL: $ELB_URL 🤓"
+          payload: |
+            {
+            "text": "Deployment completed successfully! ELB URL: $ELB_URL 🤓"
+            }
+        env: SLACK_WEBHOOK_URL:${{ secrets.SLACK_WEBHOOK_URL}}
