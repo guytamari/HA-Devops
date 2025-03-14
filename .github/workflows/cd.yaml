@@ -6,7 +6,6 @@ on:
 env:
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  ELB_URL: ${{ env.ELB_URL }}
 
 jobs:
   cd:
@@ -56,3 +55,5 @@ jobs:
           steps: ${{ toJson(steps) }}
           message: "Deployment completed successfully. ELB URL: ${ELB_URL}"
         if: always()
+        env:
+          ELB_URL: ${{ env.ELB_URL }}
