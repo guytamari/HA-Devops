@@ -55,5 +55,5 @@ jobs:
           channel: "#deployments"
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-          message: "Deployment completed successfully. ELB URL: ${{ steps.get_elb_url.outputs.elb_url }}""
+          message: "Deployment completed successfully. ELB URL: ${{ steps.get_elb_url.outputs.elb_url }}"
         if: always()
