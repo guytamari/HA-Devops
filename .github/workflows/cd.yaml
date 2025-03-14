@@ -44,13 +44,13 @@ jobs:
         id: get_elb_url
         run: |
           cd terraform/
-          export ELB_URL=$(terraform output -json elb_url | tr -d '"')
+          echo "::set-output name=elb_url::$(terraform output -json elb_url | tr -d '"')"
 
       - name: Send notification on Slack using Webhooks
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
             {
-            "text": "Deployment completed successfully! ELB URL: $ELB_URL 🤓"
+            "text": "Deployment completed successfully! ELB URL: ${{ steps.get_elb_url.outputs.elb_url }} 🤓"
             }
-        env: SLACK_WEBHOOK_URL:${{ secrets.SLACK_WEBHOOK_URL}}
+        env: SLACK_WEBHOOK_URL:${{ secrets.SLACK_WEBHOOK_URL }}
