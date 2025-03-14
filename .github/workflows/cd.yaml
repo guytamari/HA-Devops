@@ -5,6 +5,7 @@ on:
 
 env:
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 jobs:
   cd:
@@ -47,10 +48,10 @@ jobs:
           echo "::set-output name=elb_url::$(terraform output -json elb_url | tr -d '"')"
 
       - name: Send notification on Slack using Webhooks
-        uses: slackapi/slack-github-action@v1.24.0
+        uses: act10ns/slack@v2
         with:
-          payload: |
-            {
-            "text": "Deployment completed successfully! ELB URL: ${{ steps.get_elb_url.outputs.elb_url }} 🤓"
-            }
-        env: SLACK_WEBHOOK_URL:${{ secrets.SLACK_WEBHOOK_URL }}
+          channel: "#deployments"
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          message: "Deployment completed successfully. ELB URL: ${{ steps.get_elb_url.outputs.elb_url }}"
+        if: always()
