@@ -38,7 +38,8 @@ jobs:
       - name: apply Terraform
         run: |
           cd terraform/
-          terraform apply -auto-approve -input=false tfplan
+          #terraform apply -auto-approve -input=false tfplan
+          terraform destroy -auto-approve
 
       - name: Get ELB URL from Terraform output
         id: get_elb_url
