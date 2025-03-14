@@ -51,5 +51,5 @@ jobs:
         id: notify
         with:
           slack-bot-user-oauth-access-token: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
-          slack-channel: deployments
+          slack-channel: C08HMRYSYCS
           slack-text: "Deployment completed successfully! ELB URL: $ELB_URL 🤓"
