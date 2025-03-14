@@ -45,7 +45,7 @@ jobs:
         id: get_elb_url
         run: |
           cd terraform/
-          echo "ELB_URL=$(terraform output -raw elb_url | tr -d '\n' | tr -d '\r')" >> $GITHUB_ENV
+          echo "ELB_URL=$(terraform output -raw elb_url 2>/dev/null | tail -n 1 | tr -d '\n' | tr -d '\r')" > $GITHUB_ENV
 
       - name: Send notification on Slack using Webhooks
         uses: act10ns/slack@v2
