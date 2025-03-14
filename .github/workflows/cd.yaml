@@ -6,6 +6,7 @@ on:
 env:
   BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  ELB_URL: ${{ env.ELB_URL }}
 
 jobs:
   cd:
@@ -45,7 +46,7 @@ jobs:
         id: get_elb_url
         run: |
           cd terraform/
-          export ELB_URL=$(terraform output -json elb_url | tr -d '"')
+          echo "ELB_URL=$(terraform output -json elb_url | tr -d '"')" >> $GITHUB_ENV
 
       - name: Send notification on Slack using Webhooks
         uses: act10ns/slack@v2
